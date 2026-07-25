@@ -1,0 +1,346 @@
+{
+  "schema_version": 1,
+  "catalog_version": "2026.07.25.1",
+  "name": "HomeStart Official Apps",
+  "apps": [
+    {
+      "id": "uptime-kuma",
+      "name": "Uptime Kuma",
+      "description": "Self-hosted uptime monitoring and status pages.",
+      "category": "Monitoring",
+      "verified": true,
+      "verification_label": "HomeStart reviewed",
+      "icon_url": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/uptime-kuma.png",
+      "homepage": "https://github.com/louislam/uptime-kuma",
+      "page_url": "https://hub.docker.com/r/louislam/uptime-kuma",
+      "inputs": [
+        {
+          "id": "container_name",
+          "label": "Container name",
+          "type": "text",
+          "default": "uptime-kuma",
+          "pattern": "^[A-Za-z0-9_.-]+$"
+        },
+        {
+          "id": "host_port",
+          "label": "Web port",
+          "type": "port",
+          "default": 3001
+        },
+        {
+          "id": "data_path",
+          "label": "Data folder",
+          "type": "path",
+          "default": "{{homestart_data}}/uptime-kuma"
+        }
+      ],
+      "compose": {
+        "services": {
+          "app": {
+            "image": "louislam/uptime-kuma:1",
+            "container_name": "{{container_name}}",
+            "ports": [
+              "{{host_port}}:3001"
+            ],
+            "volumes": [
+              "{{data_path}}:/app/data"
+            ],
+            "restart": "unless-stopped"
+          }
+        }
+      }
+    },
+    {
+      "id": "home-assistant",
+      "name": "Home Assistant",
+      "description": "Open source home automation platform.",
+      "category": "Home automation",
+      "verified": true,
+      "verification_label": "HomeStart reviewed",
+      "icon_url": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/home-assistant.png",
+      "homepage": "https://www.home-assistant.io/",
+      "page_url": "https://github.com/home-assistant/core/pkgs/container/home-assistant",
+      "link_label": "GHCR",
+      "inputs": [
+        {
+          "id": "container_name",
+          "label": "Container name",
+          "type": "text",
+          "default": "home-assistant",
+          "pattern": "^[A-Za-z0-9_.-]+$"
+        },
+        {
+          "id": "host_port",
+          "label": "Web port",
+          "type": "port",
+          "default": 8123
+        },
+        {
+          "id": "data_path",
+          "label": "Configuration folder",
+          "type": "path",
+          "default": "{{homestart_data}}/home-assistant"
+        },
+        {
+          "id": "timezone",
+          "label": "Time zone",
+          "type": "timezone",
+          "default": "{{server_timezone}}"
+        }
+      ],
+      "compose": {
+        "services": {
+          "app": {
+            "image": "ghcr.io/home-assistant/home-assistant:stable",
+            "container_name": "{{container_name}}",
+            "ports": [
+              "{{host_port}}:8123"
+            ],
+            "volumes": [
+              "{{data_path}}:/config"
+            ],
+            "environment": {
+              "TZ": "{{timezone}}"
+            },
+            "restart": "unless-stopped"
+          }
+        }
+      }
+    },
+    {
+      "id": "jellyfin",
+      "name": "Jellyfin",
+      "description": "Personal media server for movies, television, music, and photos.",
+      "category": "Media",
+      "verified": true,
+      "verification_label": "HomeStart reviewed",
+      "icon_url": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/jellyfin.png",
+      "homepage": "https://jellyfin.org/",
+      "page_url": "https://hub.docker.com/r/jellyfin/jellyfin",
+      "inputs": [
+        {
+          "id": "container_name",
+          "label": "Container name",
+          "type": "text",
+          "default": "jellyfin",
+          "pattern": "^[A-Za-z0-9_.-]+$"
+        },
+        {
+          "id": "host_port",
+          "label": "Web port",
+          "type": "port",
+          "default": 8096
+        },
+        {
+          "id": "config_path",
+          "label": "Configuration folder",
+          "type": "path",
+          "default": "{{homestart_data}}/jellyfin/config"
+        },
+        {
+          "id": "media_path",
+          "label": "Media folder",
+          "type": "path",
+          "default": "/srv/media"
+        }
+      ],
+      "compose": {
+        "services": {
+          "app": {
+            "image": "jellyfin/jellyfin:latest",
+            "container_name": "{{container_name}}",
+            "ports": [
+              "{{host_port}}:8096"
+            ],
+            "volumes": [
+              "{{config_path}}:/config",
+              "{{media_path}}:/media:ro"
+            ],
+            "restart": "unless-stopped"
+          }
+        }
+      }
+    },
+    {
+      "id": "nginx-proxy-manager",
+      "name": "Nginx Proxy Manager",
+      "description": "Visual reverse proxy manager with automatic TLS certificates.",
+      "category": "Network",
+      "verified": true,
+      "verification_label": "HomeStart reviewed",
+      "icon_url": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/nginx-proxy-manager.png",
+      "homepage": "https://nginxproxymanager.com/",
+      "page_url": "https://hub.docker.com/r/jc21/nginx-proxy-manager",
+      "inputs": [
+        {
+          "id": "container_name",
+          "label": "Container name",
+          "type": "text",
+          "default": "nginx-proxy-manager",
+          "pattern": "^[A-Za-z0-9_.-]+$"
+        },
+        {
+          "id": "admin_port",
+          "label": "Admin port",
+          "type": "port",
+          "default": 81
+        },
+        {
+          "id": "http_port",
+          "label": "HTTP port",
+          "type": "port",
+          "default": 80
+        },
+        {
+          "id": "https_port",
+          "label": "HTTPS port",
+          "type": "port",
+          "default": 443
+        },
+        {
+          "id": "data_path",
+          "label": "Data folder",
+          "type": "path",
+          "default": "{{homestart_data}}/nginx-proxy-manager/data"
+        },
+        {
+          "id": "certificates_path",
+          "label": "Certificates folder",
+          "type": "path",
+          "default": "{{homestart_data}}/nginx-proxy-manager/letsencrypt"
+        }
+      ],
+      "compose": {
+        "services": {
+          "app": {
+            "image": "jc21/nginx-proxy-manager:latest",
+            "container_name": "{{container_name}}",
+            "ports": [
+              "{{http_port}}:80",
+              "{{admin_port}}:81",
+              "{{https_port}}:443"
+            ],
+            "volumes": [
+              "{{data_path}}:/data",
+              "{{certificates_path}}:/etc/letsencrypt"
+            ],
+            "restart": "unless-stopped"
+          }
+        }
+      }
+    },
+    {
+      "id": "grafana",
+      "name": "Grafana",
+      "description": "Dashboards and visualization for metrics and observability data.",
+      "category": "Monitoring",
+      "verified": true,
+      "verification_label": "HomeStart reviewed",
+      "icon_url": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/grafana.png",
+      "homepage": "https://grafana.com/oss/grafana/",
+      "page_url": "https://hub.docker.com/r/grafana/grafana",
+      "inputs": [
+        {
+          "id": "container_name",
+          "label": "Container name",
+          "type": "text",
+          "default": "grafana",
+          "pattern": "^[A-Za-z0-9_.-]+$"
+        },
+        {
+          "id": "host_port",
+          "label": "Web port",
+          "type": "port",
+          "default": 3000
+        },
+        {
+          "id": "data_path",
+          "label": "Data folder",
+          "type": "path",
+          "default": "{{homestart_data}}/grafana"
+        }
+      ],
+      "compose": {
+        "services": {
+          "app": {
+            "image": "grafana/grafana:latest",
+            "container_name": "{{container_name}}",
+            "ports": [
+              "{{host_port}}:3000"
+            ],
+            "volumes": [
+              "{{data_path}}:/var/lib/grafana"
+            ],
+            "restart": "unless-stopped"
+          }
+        }
+      }
+    },
+    {
+      "id": "forgejo",
+      "name": "Forgejo",
+      "description": "Lightweight self-hosted Git service.",
+      "category": "Development",
+      "verified": true,
+      "verification_label": "HomeStart reviewed",
+      "icon_url": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/forgejo.png",
+      "homepage": "https://forgejo.org/",
+      "page_url": "https://codeberg.org/forgejo/forgejo",
+      "link_label": "Codeberg",
+      "inputs": [
+        {
+          "id": "container_name",
+          "label": "Container name",
+          "type": "text",
+          "default": "forgejo",
+          "pattern": "^[A-Za-z0-9_.-]+$"
+        },
+        {
+          "id": "web_port",
+          "label": "Web port",
+          "type": "port",
+          "default": 3000
+        },
+        {
+          "id": "ssh_port",
+          "label": "SSH port",
+          "type": "port",
+          "default": 2222
+        },
+        {
+          "id": "data_path",
+          "label": "Data folder",
+          "type": "path",
+          "default": "{{homestart_data}}/forgejo"
+        },
+        {
+          "id": "timezone",
+          "label": "Time zone",
+          "type": "timezone",
+          "default": "{{server_timezone}}"
+        }
+      ],
+      "compose": {
+        "services": {
+          "app": {
+            "image": "codeberg.org/forgejo/forgejo:latest",
+            "container_name": "{{container_name}}",
+            "ports": [
+              "{{web_port}}:3000",
+              "{{ssh_port}}:22"
+            ],
+            "volumes": [
+              "{{data_path}}:/data"
+            ],
+            "environment": {
+              "USER_UID": "1000",
+              "USER_GID": "1000",
+              "TZ": "{{timezone}}"
+            },
+            "restart": "unless-stopped"
+          }
+        }
+      }
+    }
+  ]
+}
