@@ -1,0 +1,12 @@
+services:
+  app:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: '{{container_name}}'
+    ports:
+      - '{{http_port}}:80'
+      - '{{admin_port}}:81'
+      - '{{https_port}}:443'
+    volumes:
+      - '{{data_path}}:/data'
+      - '{{certificates_path}}:/etc/letsencrypt'
+    restart: unless-stopped
