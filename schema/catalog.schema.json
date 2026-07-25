@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/flotron/homestart-apps/schema/catalog.schema.json",
+  "title": "HomeStart app catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "catalog_version", "name", "apps"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "catalog_version": {"type": "string", "minLength": 1},
+    "name": {"type": "string", "minLength": 1},
+    "apps": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/app"}
+    }
+  },
+  "$defs": {
+    "input": {
+      "type": "object",
+      "required": ["id", "label", "type", "default"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "label": {"type": "string", "minLength": 1},
+        "type": {"enum": ["text", "port", "path", "select", "timezone"]},
+        "default": {},
+        "help": {"type": "string"},
+        "pattern": {"type": "string"},
+        "options": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "app": {
+      "type": "object",
+      "required": ["id", "name", "description", "category", "verified", "inputs", "compose"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "name": {"type": "string", "minLength": 1},
+        "description": {"type": "string"},
+        "category": {"type": "string"},
+        "verified": {"type": "boolean"},
+        "verification_label": {"type": "string"},
+        "icon_url": {"type": "string"},
+        "homepage": {"type": "string"},
+        "page_url": {"type": "string"},
+        "link_label": {"type": "string"},
+        "inputs": {"type": "array", "items": {"$ref": "#/$defs/input"}},
+        "compose": {
+          "type": "object",
+          "required": ["services"],
+          "properties": {
+            "services": {"type": "object", "minProperties": 1},
+            "volumes": {"type": "object"},
+            "networks": {"type": "object"},
+            "configs": {"type": "object"},
+            "secrets": {"type": "object"}
+          }
+        }
+      }
+    }
+  }
+}
