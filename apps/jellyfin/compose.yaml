@@ -1,0 +1,10 @@
+services:
+  app:
+    image: jellyfin/jellyfin:latest
+    container_name: '{{container_name}}'
+    ports:
+      - '{{host_port}}:8096'
+    volumes:
+      - '{{config_path}}:/config'
+      - '{{media_path}}:/media:ro'
+    restart: unless-stopped
