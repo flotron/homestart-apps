@@ -1,0 +1,24 @@
+id: uptime-kuma
+name: Uptime Kuma
+description: Self-hosted uptime monitoring and status pages.
+category: Monitoring
+verified: true
+verification_label: HomeStart reviewed
+icon_url: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/uptime-kuma.png
+homepage: https://github.com/louislam/uptime-kuma
+page_url: https://hub.docker.com/r/louislam/uptime-kuma
+compose_file: compose.yaml
+inputs:
+  - id: container_name
+    label: Container name
+    type: text
+    default: uptime-kuma
+    pattern: '^[A-Za-z0-9_.-]+$'
+  - id: host_port
+    label: Web port
+    type: port
+    default: 3001
+  - id: data_path
+    label: Data folder
+    type: path
+    default: '{{homestart_data}}/uptime-kuma'
