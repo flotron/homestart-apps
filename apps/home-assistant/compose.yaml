@@ -1,0 +1,11 @@
+services:
+  app:
+    image: ghcr.io/home-assistant/home-assistant:stable
+    container_name: '{{container_name}}'
+    ports:
+      - '{{host_port}}:8123'
+    volumes:
+      - '{{data_path}}:/config'
+    environment:
+      TZ: '{{timezone}}'
+    restart: unless-stopped
