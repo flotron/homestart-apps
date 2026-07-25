@@ -1,0 +1,14 @@
+services:
+  app:
+    image: codeberg.org/forgejo/forgejo:latest
+    container_name: '{{container_name}}'
+    ports:
+      - '{{web_port}}:3000'
+      - '{{ssh_port}}:22'
+    volumes:
+      - '{{data_path}}:/data'
+    environment:
+      USER_UID: '1000'
+      USER_GID: '1000'
+      TZ: '{{timezone}}'
+    restart: unless-stopped
