@@ -1,0 +1,10 @@
+schema_version: 1
+catalog_version: 2026.07.25.1
+name: HomeStart Official Apps
+apps:
+  - uptime-kuma
+  - home-assistant
+  - jellyfin
+  - nginx-proxy-manager
+  - grafana
+  - forgejo
