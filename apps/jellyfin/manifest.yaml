@@ -1,0 +1,28 @@
+id: jellyfin
+name: Jellyfin
+description: Personal media server for movies, television, music, and photos.
+category: Media
+verified: true
+verification_label: HomeStart reviewed
+icon_url: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/jellyfin.png
+homepage: https://jellyfin.org/
+page_url: https://hub.docker.com/r/jellyfin/jellyfin
+compose_file: compose.yaml
+inputs:
+  - id: container_name
+    label: Container name
+    type: text
+    default: jellyfin
+    pattern: '^[A-Za-z0-9_.-]+$'
+  - id: host_port
+    label: Web port
+    type: port
+    default: 8096
+  - id: config_path
+    label: Configuration folder
+    type: path
+    default: '{{homestart_data}}/jellyfin/config'
+  - id: media_path
+    label: Media folder
+    type: path
+    default: /srv/media
