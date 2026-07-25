@@ -1,0 +1,9 @@
+services:
+  app:
+    image: grafana/grafana:latest
+    container_name: '{{container_name}}'
+    ports:
+      - '{{host_port}}:3000'
+    volumes:
+      - '{{data_path}}:/var/lib/grafana'
+    restart: unless-stopped
